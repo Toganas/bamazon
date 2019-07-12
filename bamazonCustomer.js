@@ -15,6 +15,7 @@ const conn = mysql.createConnection(options);
 conn.connect(function (err) {
     if (err) throw err;
     console.log("connected");
+    // sending the user to ask if they want to see the inventory
     displayInventory();
 });
 
