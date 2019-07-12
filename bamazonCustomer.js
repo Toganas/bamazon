@@ -66,30 +66,32 @@ purchase = () => {
     ]).then((buying) => {
         let amount = buying.amount;
         let product = buying.productID
+        
         // console.log(amount);
         conn.query("SELECT product_name, department_name, price, stock_quantity FROM products WHERE ?", { item_id: product }, (err, res) => {
             if (err) throw err;
+            let newQuantity = res[0].stock_quantity - amount;
             console.log(`You are trying to purchase ${amount} of ${res[0].product_name} from ${res[0].department_name} at a cost of $${res[0].price} each`);
             if (res[0].stock_quantity >= amount) {
-                let newQuantity = res[0].stock_quantity - amount
-                conn.query("UPDATE products SET ? WHERE ?"),
-                    [{
-                        stock_quantity: newQuantity
-                    }, {
-                        item_id: product
-                    }]
-                let cost = amount * res[0].price
-                console.log(`Congratulations, you have purchased ${amount} of ${res[0].product_name} for a total of $${cost}`);
+                conn.query("UPDATE products SET ? WHERE ?",
+                    [
+                        {
+                            stock_quantity: newQuantity
+                        },
+                        {
+                            item_id: product
+                        }
+                    ]),
+                    (err) => {
+                        if (err) throw err;
+                        let cost = amount * res[0].price
+                        console.log(`Congratulations, you have purchased ${amount} of ${res[0].product_name} for a total of $${cost}`);
+                    }
                 shopping();
             } else {
                 console.log("Sorry, we don't have enough inventory to fulfill your request!");
                 shopping();
             }
-
-
-
-            // conn.query("SELECT stock_quantity FROM products")
-            // conn.query("UPDATE products SET ? WHERE ?")
 
         });
     })
