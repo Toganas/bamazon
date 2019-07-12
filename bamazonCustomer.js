@@ -73,7 +73,7 @@ purchase = () => {
         }
     ]).then((buying) => {
         // variables to be used with the queries
-        let amount = buying.amount;
+        let amount = Number(buying.amount);
         let product = buying.productID
 
         // getting the product name, department name, price and quantity to be shown
