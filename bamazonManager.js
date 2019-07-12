@@ -43,9 +43,10 @@ menu = () => {
             case "Add to Inventory":
                 add();
                 break;
-            // // Sending user to the prompt to add a product
-            // case "Add New Product":
-            //     product();
+            // Sending user to the prompt to add a product
+            case "Add New Product":
+                product();
+                break;
             // close connection
             case "End Session":
                 session();
@@ -117,12 +118,77 @@ add = () =>
                         item_id: more
                     }
                 ])
-            console.log(`You have added ${amount} of stock to item_id ${more}, ${res[0].product_name}, so that it now has a total of ${newStock}`);
+            // Displaying the new amount to the user
+            console.log(`
+            You have added ${amount} of stock to item_id ${more}, ${res[0].product_name}, so that it now has a total of ${newStock}
+            `);
             menu();
         })
-        // Displaying the new amount to the user
-
     })
+// Adding a new product
+product = () => {
+    inquirer.prompt([
+        // asking for its name
+        {
+            name: "product",
+            type: "input",
+            message: "What is the name of the new product?"
+        },
+        // asking for its department
+        {
+            name: "department",
+            type: "input",
+            message: "What department does it belong in?"
+        },
+        // asking for its price
+        {
+            name: "price",
+            type: "input",
+            message: "How much does it cost the customer?",
+            validate: (value) => {
+                if (isNaN(value) === false) {
+                    return true;
+                } else {
+                    console.log("\nPrice must be a number");
+                }
+            }
+
+        },
+        // asking for the innitial amount to add
+        {
+            name: "amount",
+            type: "input",
+            message: "How many are you adding?",
+            validate: (value) => {
+                if (isNaN(value) === false) {
+                    return true;
+                } else {
+                    console.log("\nAmount added must be a number");
+                }
+            }
+        }
+    ]).then((answer) => {
+        // inserting into the table
+        conn.query("INSERT INTO products SET ?",
+            [
+                {
+                    product_name: answer.product,
+                    department_name: answer.department,
+                    price: answer.price,
+                    stock_quantity: answer.amount
+                },
+                    (err) => {
+                    if(err) throw err;
+                    // Informting the user that everything went well and the item was created
+                    console.log(`
+                You have created ${answer.product} in the inventory.  It will be generated a unique item_ID.
+                `);
+                    menu();
+                }
+            ])
+            
+    })
+}
 
 
 session = () => {
