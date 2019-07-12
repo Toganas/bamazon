@@ -176,21 +176,19 @@ product = () => {
                     department_name: answer.department,
                     price: answer.price,
                     stock_quantity: answer.amount
-                },
-                    (err) => {
-                    if(err) throw err;
-                    // Informting the user that everything went well and the item was created
-                    console.log(`
-                You have created ${answer.product} in the inventory.  It will be generated a unique item_ID.
-                `);
-                    menu();
                 }
-            ])
-            
+            ]),
+            (err) => {
+                if (err) throw err;
+            }
+            // Informting the user that everything went well and the item was created
+        console.log(`
+                You have created ${answer.product} in the inventory.  It will generate a unique item_ID.
+                `);
+        menu();
     })
 }
-
-
+// Closing the connection
 session = () => {
     conn.end();
 }
