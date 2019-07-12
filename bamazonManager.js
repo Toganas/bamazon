@@ -36,8 +36,9 @@ menu = () => {
                 sale();
                 break;
             // Sending user to the prompt to view low inventory
-            // case "View Low Inventory":
-            //     low();
+            case "View Low Inventory":
+                low();
+                break;
             // // Sending user to the prompt to add inventory
             // case "Add to Inventory":
             //     add();
@@ -60,13 +61,13 @@ sale = () => {
     })
 }
 // Displaying all items with less than 5 inventory remaining
-// low = () => {
-//     conn.query("SELECT item_id, product_name, department_name, price, stock_quantity FROM products WHERE stock_quantity <5", (err,res) => {
-//         if (err) throw err;
-//         console.table(res);
-//         menu();
-//     })    
-// }
+low = () => {
+    conn.query("SELECT * FROM products WHERE stock_quantity <5", (err, res) => {
+        if (err) throw err;
+        console.table(res);
+        menu();
+    })
+}
 
 
 // // Adding inventory for a product
