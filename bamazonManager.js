@@ -103,7 +103,7 @@ add = () =>
         }
     ]).then((answer) => {
         let more = answer.addInv;
-        let amount = answer.amount;
+        let amount = Number(answer.amount);
         // creating the selection to grab from
         conn.query("SELECT product_name, item_id, stock_quantity FROM products WHERE ?", { item_id: more }, (err, res) => {
             if (err) throw err;
