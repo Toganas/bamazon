@@ -7,7 +7,7 @@ const options = ({
     host: "localhost",
     port: 3306,
     user: "root",
-    password: "B@y3kW@5Th3F1r5t.Ez10W@5Th3B35t",
+    password: "Your Password Here",
     database: "bamazon"
 });
 // creating server for mySQL
