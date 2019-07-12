@@ -46,3 +46,10 @@ menu = () => {
         }
     })
 }
+
+sale = () => {
+    conn.query("SELECT product_name, department_name, price, stock_quantity FROM products", (err,res)=>{
+        if(err) throw err;
+        console.table(res)
+    })
+}
