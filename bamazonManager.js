@@ -15,5 +15,34 @@ const conn = mysql.createConnection(options);
 conn.connect(function (err) {
     if (err) throw err;
     console.log("connected");
-   
+    // sending user to the top menu prompt
+    menu();
 });
+
+// top menu prompt
+menu = () => {
+    inquirer.prompt([
+        // Determining what the user wants to do
+        {
+            type: "rawlist",
+            name: "options",
+            message: "What would you like to do?",
+            choices: ["View Products for Sale", "View Low Inventory", "Add to Inventory", "Add New Product"]
+        }
+    ]).then((res) => {
+        switch (res.options) {
+            // Sending user to the prompt to view products for sale
+            case "View Products for Sale":
+                sale();
+            // Sending user to the prompt to view low inventory
+            case "View Low Inventory":
+                low();
+            // Sending user to the prompt to add inventory
+            case "Add to Inventory":
+                add();
+            // Sending user to the prompt to add a product
+            case "Add New Product":
+                product();
+        }
+    })
+}
