@@ -1,6 +1,7 @@
 // requring node packages
 const mysql = require("mysql");
 const inquirer = require("inquirer");
+const cTable = require('console.table');
 // connection information for mySQL
 const options = ({
     host: "localhost",
@@ -74,7 +75,7 @@ purchase = () => {
         // variables to be used with the queries
         let amount = buying.amount;
         let product = buying.productID
-        
+
         // getting the product name, department name, price and quantity to be shown
         conn.query("SELECT product_name, department_name, price, stock_quantity FROM products WHERE ?", { item_id: product }, (err, res) => {
             if (err) throw err;
@@ -95,16 +96,21 @@ purchase = () => {
                     ]),
                     (err) => {
                         if (err) throw err;
-                        // Finding the total cost of the purchase
-                        let cost = amount * res[0].price
-                        // console logging the amount of the purchase.
-                        console.log(`Congratulations, you have purchased ${amount} of ${res[0].product_name} for a total of $${cost}`);
                     }
-                    // asking if they want to keep shopping
+                // Finding the total cost of the purchase
+                let cost = amount * res[0].price
+                // console logging the amount of the purchase.
+                console.log(`
+                        Congratulations, you have purchased ${amount} of ${res[0].product_name} for a total of $${cost}
+                        `);
+                // asking if they want to keep shopping
                 shopping();
+
             } else {
                 // If the amount is more than there is in stock, informing the customer that there isn't enough inventory
-                console.log("Sorry, we don't have enough inventory to fulfill your request!");
+                console.log(`
+                Sorry, we don't have enough inventory to fulfill your request!
+                `);
                 // asking if the customer wants to continue shopping
                 shopping();
             }

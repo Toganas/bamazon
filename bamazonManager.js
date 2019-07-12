@@ -1,6 +1,7 @@
 // requring node packages
 const mysql = require("mysql");
 const inquirer = require("inquirer");
+const cTable = require('console.table');
 // connection information for mySQL
 const options = ({
     host: "localhost",
