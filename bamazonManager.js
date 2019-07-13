@@ -1,4 +1,5 @@
 // requring node packages
+require("dotenv").config()
 const mysql = require("mysql");
 const inquirer = require("inquirer");
 const cTable = require('console.table');
@@ -7,7 +8,7 @@ const options = ({
     host: "localhost",
     port: 3306,
     user: "root",
-    password: "Your Password Here",
+    password: process.env.password,
     database: "bamazon"
 });
 // creating server for mySQL
